@@ -1,0 +1,8 @@
+version: '26.0.0'
+
+services:
+  django:
+    image: django-docker:1.10.4
+    build: .
+    ports:
+      - "8000:8000"
