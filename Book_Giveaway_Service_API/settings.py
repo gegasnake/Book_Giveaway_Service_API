@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-t_^ty%+uxo!0uy)_1ya8y*t9ywb!%zq72^_=qr2m&up0uoxp9@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "User_Authentication.apps.UserAuthenticationConfig",
 
-    'rest_framework'
+    'rest_framework',
+    'drf_yasg'
 
 ]
 
@@ -80,10 +81,15 @@ WSGI_APPLICATION = 'Book_Giveaway_Service_API.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'book_giveaway_service_database',
+        'USER': 'postgres',
+        'PASSWORD': 'JordiSnake',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
