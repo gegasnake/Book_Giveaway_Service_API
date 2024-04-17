@@ -1,4 +1,4 @@
-version: '26.0.0'
+version: '3.8'
 
 services:
   django:
@@ -16,4 +16,5 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: JordiSnake
       POSTGRES_DB: book_giveaway_service_database
-      ports: "5432:5432"
+    ports:
+      - "5432:5432"
