@@ -52,4 +52,8 @@ the version of python I use, then I put the installation of requirements.txt fil
 image it installs all the new packages. In addition, I added the command to run the django server. Other than a dockerfile,
 I used docker-compose.yml which describes a docker Compose configuration for a service named "Django".
 https://www.youtube.com/watch?v=BoM-7VMdo7s
-3. 
+3. How can I add environment variables to my project?
+Firstly, I have to create an .env file where I will put my environment variables with key=value format and then I import
+the environ module to help me get the values of my variables.
+https://www.youtube.com/watch?v=myqfTX9ZbTs
+4. 

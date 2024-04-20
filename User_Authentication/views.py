@@ -1,13 +1,13 @@
 from rest_framework import generics
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import CustomUserSerializer, CustomLoginSerializer
+from .serializers import CustomUserSerializer, CustomLoginSerializer, UserProfileSerializer, UserProfileUpdateSerializer
 
 
 class UserRegisterView(generics.CreateAPIView):
@@ -24,6 +24,7 @@ class UserRegisterView(generics.CreateAPIView):
 
 class LoginView(APIView):
     serializer_class = CustomLoginSerializer
+    authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
@@ -36,14 +37,6 @@ class LoginView(APIView):
         access_token = refresh.access_token
 
         return Response({'access_token': str(access_token), 'refresh_token': str(refresh)}, status=status.HTTP_200_OK)
-
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    pass
-
-
-class CustomTokenRefreshView(TokenRefreshView):
-    pass
 
 
 class LogoutView(APIView):
@@ -60,3 +53,24 @@ class LogoutView(APIView):
             return Response({'message': 'Successfully logged out'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class UserProfile(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = UserProfileSerializer(user)
+        return Response(serializer.data)
+
+
+class UserProfileUpdate(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        user = request.user
+        serializer = UserProfileUpdateSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

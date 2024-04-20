@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
@@ -25,11 +27,13 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    uuid_field = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=150, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
+    address = models.CharField(max_length=200, blank=True, null=True)
 
     objects = CustomUserManager()
 
@@ -38,11 +42,3 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-    def has_perm(self, perm, obj=None):
-        # Handle global permissions here
-        return True  # In this example, all users have all permissions
-
-    def has_module_perms(self, app_label):
-        # Handle app-specific permissions here
-        return True  # In this example, all users have permissions to access all apps

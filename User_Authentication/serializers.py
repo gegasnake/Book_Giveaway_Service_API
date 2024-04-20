@@ -39,9 +39,22 @@ class CustomLoginSerializer(serializers.Serializer):
                     raise serializers.ValidationError("User account is disabled.")
             else:
                 raise serializers.ValidationError("Unable to log in with provided credentials.")
+
+            data['user'] = user
         else:
             raise serializers.ValidationError("Must include 'username' and 'password'.")
 
-        data['user'] = user
         return data
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'email', 'username', 'address']
+
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'address']
 
