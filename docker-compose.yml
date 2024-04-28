@@ -4,6 +4,8 @@ services:
   django:
     image: django-docker:1.10.4
     build: .
+    volumes:
+      - "./:/app"
     ports:
       - "8000:8000"
     depends_on:
@@ -18,3 +20,8 @@ services:
       POSTGRES_DB: book_giveaway_service_database
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
