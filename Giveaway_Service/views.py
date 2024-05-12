@@ -57,9 +57,17 @@ class InterestedUsersAPIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        book_id = self.kwargs['pk']
-        return Book.objects.get(pk=book_id).interested_users.all()
-
+        book_id = self.kwargs.get('pk')  # Use get method to avoid KeyError
+        if book_id is not None:
+            try:
+                book = Book.objects.get(pk=book_id)
+                return book.interested_users.all()
+            except Book.DoesNotExist:
+                # Handle the case when the book with the provided pk does not exist
+                return []
+        else:
+            # Handle the case when 'pk' is not available in kwargs
+            return []
 
 class SelectRecipientAPIView(generics.UpdateAPIView):
     queryset = Book.objects.all()

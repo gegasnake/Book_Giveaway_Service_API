@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 from decouple import config
 import os
@@ -32,8 +33,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'drf_yasg'
-
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -86,6 +86,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -133,3 +134,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'User_Authentication.CustomUser'
 
+LOGIN_URL = "user/login/"
+SESSION_COOKIE_AGE = 3600  # Expiration time in seconds (adjust as needed)
+LOGIN_REDIRECT_URL = "book/books"
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Book Giveaway Service',
+    'DESCRIPTION': "This project helps users to read some books freely without "
+                   "any fee and users can also take the books others offer.",
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(weeks=2),  # Set the access token lifespan (e.g., 1 hour)
+    'REFRESH_TOKEN_LIFETIME': timedelta(weeks=4),     # Set the refresh token lifespan (e.g., 1 day)
+    # Optionally, you can set other parameters such as token refreshing, token blacklist, etc.
+}
