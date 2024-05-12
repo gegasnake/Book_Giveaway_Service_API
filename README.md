@@ -56,4 +56,3 @@ https://www.youtube.com/watch?v=BoM-7VMdo7s
 Firstly, I have to create an .env file where I will put my environment variables with key=value format and then I import
 the environ module to help me get the values of my variables.
 https://www.youtube.com/watch?v=myqfTX9ZbTs
-4. 
